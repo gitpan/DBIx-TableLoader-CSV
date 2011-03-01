@@ -11,6 +11,7 @@ my %module_build_args = (
     'File::Temp' => '0',
     'FindBin' => '0',
     'Module::Build' => '0.3601',
+    'Symbol' => '0',
     'Test::MockObject' => '1.09',
     'Test::More' => '0.96'
   },
@@ -22,7 +23,7 @@ my %module_build_args = (
     'Randy Stauner <rwstauner@cpan.org>'
   ],
   'dist_name' => 'DBIx-TableLoader-CSV',
-  'dist_version' => '1.000',
+  'dist_version' => '1.001',
   'license' => 'perl',
   'module_name' => 'DBIx::TableLoader::CSV',
   'recommends' => {

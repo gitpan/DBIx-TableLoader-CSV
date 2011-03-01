@@ -16,6 +16,7 @@ my %WriteMakefileArgs = (
     'File::Temp' => '0',
     'FindBin' => '0',
     'ExtUtils::MakeMaker' => '6.31',
+    'Symbol' => '0',
     'Test::MockObject' => '1.09',
     'Test::More' => '0.96'
   },
@@ -34,7 +35,7 @@ my %WriteMakefileArgs = (
     'Text::CSV' => '1.21',
     'parent' => '0'
   },
-  'VERSION' => '1.000',
+  'VERSION' => '1.001',
   'test' => {
     'TESTS' => 't/*.t'
   }

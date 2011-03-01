@@ -56,6 +56,7 @@ eval { $v .= pmver('File::Temp','any version') };
 eval { $v .= pmver('FindBin','any version') };
 eval { $v .= pmver('Module::Build','0.3601') };
 eval { $v .= pmver('Module::Load','any version') };
+eval { $v .= pmver('Symbol','any version') };
 eval { $v .= pmver('Test::MockObject','1.09') };
 eval { $v .= pmver('Test::More','0.96') };
 eval { $v .= pmver('Text::CSV','1.21') };

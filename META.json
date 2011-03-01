@@ -53,6 +53,7 @@
             "File::Find" : 0,
             "File::Temp" : 0,
             "FindBin" : 0,
+            "Symbol" : 0,
             "Test::MockObject" : "1.09",
             "Test::More" : "0.96"
          }
@@ -61,7 +62,7 @@
    "provides" : {
       "DBIx::TableLoader::CSV" : {
          "file" : "lib/DBIx/TableLoader/CSV.pm",
-         "version" : "1.000"
+         "version" : "1.001"
       }
    },
    "release_status" : "stable",
@@ -77,7 +78,7 @@
          "web" : "http://github.com/magnificent-tears/DBIx-TableLoader-CSV/tree"
       }
    },
-   "version" : "1.000",
+   "version" : "1.001",
    "x_Dist_Zilla" : {
       "plugins" : [
          {

@@ -8,7 +8,7 @@
 #
 package DBIx::TableLoader::CSV;
 BEGIN {
-  $DBIx::TableLoader::CSV::VERSION = '1.000';
+  $DBIx::TableLoader::CSV::VERSION = '1.001';
 }
 BEGIN {
   $DBIx::TableLoader::CSV::AUTHORITY = 'cpan:RWSTAUNER';
@@ -103,7 +103,7 @@ DBIx::TableLoader::CSV - Easily load a CSV into a database table
 
 =head1 VERSION
 
-version 1.000
+version 1.001
 
 =head1 SYNOPSIS
 
