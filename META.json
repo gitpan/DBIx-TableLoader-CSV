@@ -62,7 +62,7 @@
    "provides" : {
       "DBIx::TableLoader::CSV" : {
          "file" : "lib/DBIx/TableLoader/CSV.pm",
-         "version" : "1.001"
+         "version" : "1.002"
       }
    },
    "release_status" : "stable",
@@ -78,7 +78,7 @@
          "web" : "http://github.com/magnificent-tears/DBIx-TableLoader-CSV/tree"
       }
    },
-   "version" : "1.001",
+   "version" : "1.002",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
