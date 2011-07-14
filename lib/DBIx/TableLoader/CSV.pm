@@ -1,3 +1,4 @@
+# vim: set ts=2 sts=2 sw=2 expandtab smarttab:
 #
 # This file is part of DBIx-TableLoader-CSV
 #
@@ -6,18 +7,18 @@
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
 #
+use strict;
+use warnings;
+
 package DBIx::TableLoader::CSV;
 BEGIN {
-  $DBIx::TableLoader::CSV::VERSION = '1.002';
+  $DBIx::TableLoader::CSV::VERSION = '1.003';
 }
 BEGIN {
   $DBIx::TableLoader::CSV::AUTHORITY = 'cpan:RWSTAUNER';
 }
 # ABSTRACT: Easily load a CSV into a database table
 
-
-use strict;
-use warnings;
 use parent 'DBIx::TableLoader';
 use Carp qw(croak carp);
 use Module::Load ();
@@ -27,65 +28,65 @@ use Text::CSV 1.21 ();
 # 'new' inherited
 
 sub defaults {
-	my ($self) = @_;
-	return {
-		csv             => undef,
-		csv_class       => 'Text::CSV',
-		csv_defaults    => {
-			# Text::CSV encourages setting { binary => 1 }
-			binary => 1,
-		},
-		csv_opts        => {},
-		file            => undef,
-		io              => undef,
-		no_header       => 0,
-	};
+  my ($self) = @_;
+  return {
+    csv             => undef,
+    csv_class       => 'Text::CSV',
+    csv_defaults    => {
+      # Text::CSV encourages setting { binary => 1 }
+      binary => 1,
+    },
+    csv_opts        => {},
+    file            => undef,
+    io              => undef,
+    no_header       => 0,
+  };
 }
 
 
 sub get_raw_row {
-	my ($self) = @_;
-	return $self->{csv}->getline($self->{io});
+  my ($self) = @_;
+  return $self->{csv}->getline($self->{io});
 }
 
 
 sub default_name {
-	my ($self) = @_;
-	# guess name if not provided
-	return $self->{name} ||=
-		$self->{file}
-			? do {
-				require File::Basename; # core
-				File::Basename::fileparse($self->{file}, qr/\.[^.]*/);
-			}
-			: 'csv';
+  my ($self) = @_;
+  # guess name if not provided
+  return $self->{name} ||=
+    $self->{file}
+      ? do {
+        require File::Basename; # core
+        File::Basename::fileparse($self->{file}, qr/\.[^.]*/);
+      }
+      : 'csv';
 }
 
 
 sub prepare_data {
-	my ($self) = @_;
+  my ($self) = @_;
 
-	Module::Load::load($self->{csv_class});
+  Module::Load::load($self->{csv_class});
 
-	# if an object is not passed in via 'csv', create one from 'csv_opts'
-	$self->{csv} ||= $self->{csv_class}->new({
-		%{ $self->{csv_defaults} },
-		%{ $self->{csv_opts} }
-	});
+  # if an object is not passed in via 'csv', create one from 'csv_opts'
+  $self->{csv} ||= $self->{csv_class}->new({
+    %{ $self->{csv_defaults} },
+    %{ $self->{csv_opts} }
+  });
 
-	# if 'io' not provided set it to the handle returned from opening 'file'
-	$self->{io} ||= do {
-		croak("Cannot proceed without a 'file' or 'io' attribute")
-			unless my $file = $self->{file};
-		open(my $fh, '<', $file)
-			or croak("Failed to open '$file': $!");
-		binmode($fh);
-		$fh;
-	};
+  # if 'io' not provided set it to the handle returned from opening 'file'
+  $self->{io} ||= do {
+    croak("Cannot proceed without a 'file' or 'io' attribute")
+      unless my $file = $self->{file};
+    open(my $fh, '<', $file)
+      or croak("Failed to open '$file': $!");
+    binmode($fh);
+    $fh;
+  };
 
-	# discard first row if columns given (see POD for 'no_header' option)
-	$self->{first_row} = $self->get_raw_row()
-		if $self->{columns} && !$self->{no_header};
+  # discard first row if columns given (see POD for 'no_header' option)
+  $self->{first_row} = $self->get_raw_row()
+    if $self->{columns} && !$self->{no_header};
 }
 
 1;
@@ -103,23 +104,15 @@ DBIx::TableLoader::CSV - Easily load a CSV into a database table
 
 =head1 VERSION
 
-version 1.002
+version 1.003
 
 =head1 SYNOPSIS
 
-	my $dbh = DBI->connect(@connection_args);
+  my $dbh = DBI->connect(@connection_args);
 
-	DBIx::TableLoader::CSV->new(dbh => $dbh, file => $path_to_csv)->load();
+  DBIx::TableLoader::CSV->new(dbh => $dbh, file => $path_to_csv)->load();
 
-	# interact with new database table full of data in $dbh
-
-In most cases simply calling C<load()> is sufficient,
-but all methods are documented below in case you are curious
-or want to do something a little trickier.
-
-There are many options available for configuration.
-See L</OPTIONS> for those specific to this module
-and also L<DBIx::TableLoader/OPTIONS> for options from the base module.
+  # interact with new database table full of data in $dbh
 
 =head1 DESCRIPTION
 
@@ -130,6 +123,10 @@ the common operations of reading a CSV file
 This module simplifies the task of transforming a CSV file
 into a database table.
 This functionality was the impetus for the parent module (L<DBIx::TableLoader>).
+
+In most cases simply calling C<load()> is sufficient
+(see L<DBIx::TableLoader/load>).
+The methods defined by this subclass are documented for completeness.
 
 =head1 METHODS
 
@@ -148,7 +145,7 @@ Returns C<< $csv->getline($io) >>.
 
 If the C<name> option is not provided,
 and the C<file> option is,
-returns the file basename.
+this returns the file basename.
 
 Falls back to C<'csv'>.
 
@@ -177,9 +174,15 @@ Discard the first row if C<columns> is provided and C<no_header> is not.
 
 =back
 
+=for test_synopsis my (@connection_args, $dbh, $path_to_csv);
+
 =head1 OPTIONS
 
-The most common usage might include these options:
+There are many options available for configuration.
+Options specific to this module are listed below.
+Also see L<DBIx::TableLoader/OPTIONS> for options from the base module.
+
+Basic usage:
 
 =over 4
 
@@ -199,8 +202,7 @@ and its basename will be the default table name
 
 =back
 
-If you need more customization or are using this inside of
-a larger application you may find some of these useful:
+Options for more customization/control:
 
 =over 4
 
@@ -268,6 +270,10 @@ L<DBIx::TableLoader>
 
 L<Text::CSV>
 
+=item *
+
+L<Text::CSV::Auto> - Alternative project automating CSV usage
+
 =back
 
 =head1 SUPPORT
@@ -289,49 +295,49 @@ in addition to those websites please use your favorite search engine to discover
 
 Search CPAN
 
+The default CPAN search engine, useful to view POD in HTML format.
+
 L<http://search.cpan.org/dist/DBIx-TableLoader-CSV>
 
 =item *
 
 RT: CPAN's Bug Tracker
 
+The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
+
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=DBIx-TableLoader-CSV>
-
-=item *
-
-AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/DBIx-TableLoader-CSV>
 
 =item *
 
 CPAN Ratings
 
+The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
+
 L<http://cpanratings.perl.org/d/DBIx-TableLoader-CSV>
 
 =item *
 
-CPAN Forum
+CPAN Testers
 
-L<http://cpanforum.com/dist/DBIx-TableLoader-CSV>
+The CPAN Testers is a network of smokers who run automated tests on uploaded CPAN distributions.
 
-=item *
-
-CPANTS Kwalitee
-
-L<http://cpants.perl.org/dist/overview/DBIx-TableLoader-CSV>
-
-=item *
-
-CPAN Testers Results
-
-L<http://cpantesters.org/distro/D/DBIx-TableLoader-CSV.html>
+L<http://www.cpantesters.org/distro/D/DBIx-TableLoader-CSV>
 
 =item *
 
 CPAN Testers Matrix
 
+The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
+
 L<http://matrix.cpantesters.org/?dist=DBIx-TableLoader-CSV>
+
+=item *
+
+CPAN Testers Dependencies
+
+The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
+
+L<http://deps.cpantesters.org/?module=DBIx::TableLoader::CSV>
 
 =back
 
@@ -344,9 +350,9 @@ progress on the request by the system.
 =head2 Source Code
 
 
-L<http://github.com/magnificent-tears/DBIx-TableLoader-CSV/tree>
+L<http://github.com/rwstauner/DBIx-TableLoader-CSV>
 
-  git clone git://github.com/magnificent-tears/DBIx-TableLoader-CSV.git
+  git clone http://github.com/rwstauner/DBIx-TableLoader-CSV
 
 =head1 AUTHOR
 
