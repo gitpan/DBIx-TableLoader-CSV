@@ -9,35 +9,42 @@ use ExtUtils::MakeMaker 6.30;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'Easily load a CSV into a database table',
-  'AUTHOR' => 'Randy Stauner <rwstauner@cpan.org>',
-  'BUILD_REQUIRES' => {
-    'File::Find' => '0',
-    'File::Temp' => '0',
-    'FindBin' => '0',
-    'ExtUtils::MakeMaker' => '6.30',
-    'Symbol' => '0',
-    'Test::MockObject' => '1.09',
-    'Test::More' => '0.96'
+  "ABSTRACT" => "Easily load a CSV into a database table",
+  "AUTHOR" => "Randy Stauner <rwstauner\@cpan.org>",
+  "BUILD_REQUIRES" => {
+    "DBD::Mock" => 0,
+    "DBI" => 0,
+    "ExtUtils::MakeMaker" => 0,
+    "File::Find" => 0,
+    "File::Spec::Functions" => 0,
+    "File::Temp" => 0,
+    "List::Util" => 0,
+    "Symbol" => 0,
+    "Test::Fatal" => 0,
+    "Test::MockObject" => "1.09",
+    "Test::More" => "0.96",
+    "Try::Tiny" => 0
   },
-  'CONFIGURE_REQUIRES' => {
-    'ExtUtils::MakeMaker' => '6.30'
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
   },
-  'DISTNAME' => 'DBIx-TableLoader-CSV',
-  'EXE_FILES' => [],
-  'LICENSE' => 'perl',
-  'NAME' => 'DBIx::TableLoader::CSV',
-  'PREREQ_PM' => {
-    'Carp' => '0',
-    'DBIx::TableLoader' => '0',
-    'File::Basename' => '0',
-    'Module::Load' => '0',
-    'Text::CSV' => '1.21',
-    'parent' => '0'
+  "DISTNAME" => "DBIx-TableLoader-CSV",
+  "EXE_FILES" => [],
+  "LICENSE" => "perl",
+  "NAME" => "DBIx::TableLoader::CSV",
+  "PREREQ_PM" => {
+    "Carp" => 0,
+    "DBIx::TableLoader" => 0,
+    "File::Basename" => 0,
+    "Module::Load" => 0,
+    "Text::CSV" => "1.21",
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
   },
-  'VERSION' => '1.003',
-  'test' => {
-    'TESTS' => 't/*.t'
+  "VERSION" => "1.100",
+  "test" => {
+    "TESTS" => "t/*.t"
   }
 );
 

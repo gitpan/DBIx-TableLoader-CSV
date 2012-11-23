@@ -11,9 +11,11 @@ use strict;
 use warnings;
 
 package DBIx::TableLoader::CSV;
-BEGIN {
-  $DBIx::TableLoader::CSV::VERSION = '1.003';
+{
+  $DBIx::TableLoader::CSV::VERSION = '1.100';
 }
+# git description: v1.003-7-gd50f5c5
+
 BEGIN {
   $DBIx::TableLoader::CSV::AUTHORITY = 'cpan:RWSTAUNER';
 }
@@ -38,6 +40,7 @@ sub defaults {
     },
     csv_opts        => {},
     file            => undef,
+    ignore_csv_errors => 0,
     io              => undef,
     no_header       => 0,
   };
@@ -46,7 +49,13 @@ sub defaults {
 
 sub get_raw_row {
   my ($self) = @_;
-  return $self->{csv}->getline($self->{io});
+  my $row = $self->{csv}->getline($self->{io});
+  unless( $self->{ignore_csv_errors} ){
+    if( !$row && !$self->{csv}->eof ){
+      croak 'CSV parse error: ' . $self->{csv}->error_diag;
+    }
+  }
+  return $row;
 }
 
 
@@ -72,7 +81,8 @@ sub prepare_data {
   $self->{csv} ||= $self->{csv_class}->new({
     %{ $self->{csv_defaults} },
     %{ $self->{csv_opts} }
-  });
+  })
+    or croak "Cannot use CSV: " . $self->{csv_class}->error_diag();
 
   # if 'io' not provided set it to the handle returned from opening 'file'
   $self->{io} ||= do {
@@ -91,12 +101,15 @@ sub prepare_data {
 
 1;
 
-
 __END__
+
 =pod
 
-=for :stopwords Randy Stauner csv cpan testmatrix url annocpan anno bugtracker rt cpants
-kwalitee diff irc mailto metadata placeholders
+=encoding utf-8
+
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS csv cpan testmatrix url annocpan anno
+bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
+metacpan
 
 =head1 NAME
 
@@ -104,7 +117,7 @@ DBIx::TableLoader::CSV - Easily load a CSV into a database table
 
 =head1 VERSION
 
-version 1.003
+version 1.100
 
 =head1 SYNOPSIS
 
@@ -140,6 +153,12 @@ See L</OPTIONS>.
 =head1 get_raw_row
 
 Returns C<< $csv->getline($io) >>.
+
+After the last row is returned this will check L<Text::CSV/eof>
+and croak with the message from L<Text::CSV/error_diag>
+as described by L<Text::CSV/SYNOPSIS>.
+(If you wish to disable this behavior
+you can set C<< ignore_csv_errors => 1 >> in the constructor.)
 
 =head1 default_name
 
@@ -229,6 +248,23 @@ To turn off the C<binary> option
 you can pass C<< { binary => 0 } >> to C<csv_opts>.
 If you are using a different C<csv_class> that does not accept
 the C<binary> option you may need to overwrite this with an empty hash.
+
+=item *
+
+C<ignore_csv_errors> - Boolean (defaults to false)
+
+If L<Text::CSV> fails to parse a row it will abort
+and skip the rest of the file.
+This module detects parser errors and will C<die>
+with the message from L<Text::CSV/error_diag>
+upon failure to read the whole file.
+(This behavior is similar to (but separate from)
+setting C<< auto_diag => 2 >> in the csv options.)
+Set this option to a true value if you want to accept
+partially read CSV files rather than getting an error.
+B<Note> that other exceptions can still be thrown (including failure to open
+the file or if a misconfigured parser or malformed CSV returns a row with
+an inconsistent number of columns).
 
 =item *
 
@@ -350,9 +386,9 @@ progress on the request by the system.
 =head2 Source Code
 
 
-L<http://github.com/rwstauner/DBIx-TableLoader-CSV>
+L<https://github.com/rwstauner/DBIx-TableLoader-CSV>
 
-  git clone http://github.com/rwstauner/DBIx-TableLoader-CSV
+  git clone https://github.com/rwstauner/DBIx-TableLoader-CSV.git
 
 =head1 AUTHOR
 
@@ -366,4 +402,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
