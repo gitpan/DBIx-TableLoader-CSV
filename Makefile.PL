@@ -34,15 +34,14 @@ my %WriteMakefileArgs = (
   "NAME" => "DBIx::TableLoader::CSV",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "DBIx::TableLoader" => 0,
+    "DBIx::TableLoader" => "1.100",
     "File::Basename" => 0,
     "Module::Load" => 0,
     "Text::CSV" => "1.21",
-    "parent" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "1.100",
+  "VERSION" => "1.101",
   "test" => {
     "TESTS" => "t/*.t"
   }

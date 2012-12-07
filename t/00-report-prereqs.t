@@ -39,7 +39,6 @@ my @modules = qw(
   Text::CSV
   Text::CSV_XS
   Try::Tiny
-  parent
   perl
   strict
   warnings

@@ -12,16 +12,18 @@ use warnings;
 
 package DBIx::TableLoader::CSV;
 {
-  $DBIx::TableLoader::CSV::VERSION = '1.100';
+  $DBIx::TableLoader::CSV::VERSION = '1.101';
 }
-# git description: v1.003-7-gd50f5c5
+# git description: v1.100-1-gf7f141a
 
 BEGIN {
   $DBIx::TableLoader::CSV::AUTHORITY = 'cpan:RWSTAUNER';
 }
 # ABSTRACT: Easily load a CSV into a database table
 
-use parent 'DBIx::TableLoader';
+use DBIx::TableLoader 1.100; # rollback after error
+our @ISA = 'DBIx::TableLoader';
+
 use Carp qw(croak carp);
 use Module::Load ();
 use Text::CSV 1.21 ();
@@ -117,7 +119,7 @@ DBIx::TableLoader::CSV - Easily load a CSV into a database table
 
 =head1 VERSION
 
-version 1.100
+version 1.101
 
 =head1 SYNOPSIS
 
