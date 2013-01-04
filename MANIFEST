@@ -13,7 +13,10 @@ t/00-report-prereqs.t
 t/csv_error.t
 t/data/alt_sep.txt
 t/data/bad_escape.csv
+t/data/cp1252.csv
 t/data/example.csv
+t/encoding.t
+t/lib/CSVTester.pm
 t/methods.t
 t/sqlite.t
 xt/author/critic.t

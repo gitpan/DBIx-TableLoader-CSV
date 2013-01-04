@@ -53,6 +53,7 @@
             "DBIx::TableLoader" : "1.100",
             "File::Basename" : "0",
             "Module::Load" : "0",
+            "PerlIO::encoding" : "0",
             "Text::CSV" : "1.21",
             "perl" : "5.006",
             "strict" : "0",
@@ -63,6 +64,7 @@
          "requires" : {
             "DBD::Mock" : "0",
             "DBI" : "0",
+            "Exporter" : "0",
             "ExtUtils::MakeMaker" : "0",
             "File::Find" : "0",
             "File::Spec::Functions" : "0",
@@ -79,7 +81,7 @@
    "provides" : {
       "DBIx::TableLoader::CSV" : {
          "file" : "lib/DBIx/TableLoader/CSV.pm",
-         "version" : "1.101"
+         "version" : "1.102"
       }
    },
    "release_status" : "stable",
@@ -95,7 +97,7 @@
          "web" : "https://github.com/rwstauner/DBIx-TableLoader-CSV"
       }
    },
-   "version" : "1.101",
+   "version" : "1.102",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.014002"
@@ -104,7 +106,7 @@
          {
             "class" : "Dist::Zilla::Plugin::Git::NextVersion",
             "name" : "@Author::RWSTAUNER/Git::NextVersion",
-            "version" : "2.004"
+            "version" : "2.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::GenerateFile",
@@ -264,7 +266,7 @@
          {
             "class" : "Dist::Zilla::Plugin::Test::PodSpelling",
             "name" : "@Author::RWSTAUNER/Test::PodSpelling",
-            "version" : "2.002005"
+            "version" : "2.002006"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::UnusedVars",
@@ -384,22 +386,22 @@
          {
             "class" : "Dist::Zilla::Plugin::Git::Check",
             "name" : "@Author::RWSTAUNER/@Git/Check",
-            "version" : "2.004"
+            "version" : "2.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Commit",
             "name" : "@Author::RWSTAUNER/@Git/Commit",
-            "version" : "2.004"
+            "version" : "2.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Tag",
             "name" : "@Author::RWSTAUNER/@Git/Tag",
-            "version" : "2.004"
+            "version" : "2.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::Git::Push",
             "name" : "@Author::RWSTAUNER/@Git/Push",
-            "version" : "2.004"
+            "version" : "2.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
@@ -415,6 +417,17 @@
             "class" : "Dist::Zilla::Plugin::InstallRelease",
             "name" : "@Author::RWSTAUNER/InstallRelease",
             "version" : "0.008"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Prereqs",
+            "config" : {
+               "Dist::Zilla::Plugin::Prereqs" : {
+                  "phase" : "runtime",
+                  "type" : "requires"
+               }
+            },
+            "name" : "Prereqs",
+            "version" : "4.300028"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",

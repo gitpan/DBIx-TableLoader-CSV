@@ -21,6 +21,7 @@ my @modules = qw(
   DBD::Mock
   DBI
   DBIx::TableLoader
+  Exporter
   ExtUtils::MakeMaker
   File::Basename
   File::Find
@@ -28,6 +29,7 @@ my @modules = qw(
   File::Temp
   List::Util
   Module::Load
+  PerlIO::encoding
   Pod::Coverage::TrustPod
   Symbol
   Test::CPAN::Meta

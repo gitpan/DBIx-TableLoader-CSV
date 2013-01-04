@@ -14,6 +14,7 @@ my %WriteMakefileArgs = (
   "BUILD_REQUIRES" => {
     "DBD::Mock" => 0,
     "DBI" => 0,
+    "Exporter" => 0,
     "ExtUtils::MakeMaker" => 0,
     "File::Find" => 0,
     "File::Spec::Functions" => 0,
@@ -37,11 +38,12 @@ my %WriteMakefileArgs = (
     "DBIx::TableLoader" => "1.100",
     "File::Basename" => 0,
     "Module::Load" => 0,
+    "PerlIO::encoding" => 0,
     "Text::CSV" => "1.21",
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "1.101",
+  "VERSION" => "1.102",
   "test" => {
     "TESTS" => "t/*.t"
   }
